@@ -29,16 +29,26 @@ const LanguageService = {
       .where({ language_id })
   },
 
-  getNextWord(db, next) {
+  getTotal(db, language_id) {
+    return db 
+      .from('language')
+      .select(
+        'total_score'
+      )
+      .where( 'id', language_id)
+  },
+
+  startPractice(db, language_id) {
     return db
       .from('word')
       .select(
         'original',
         'correct_count',
-        'incorrect_count',
-        'next')
-      .where('id', next)
+        'incorrect_count',)
+      .where({ language_id })
+      .where('id', 1)
   }
+
 
 
 }

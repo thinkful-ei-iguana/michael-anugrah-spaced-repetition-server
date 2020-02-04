@@ -47,11 +47,23 @@ languageRouter
   .get('/head', async (req, res, next) => {
     console.log(req.query)
     try {
-      const nextWord = await LanguageService.getNextWord(
+      const headWord = await LanguageService.startPractice(
         req.app.get('db'),
-        req.query.next
+        req.language.id
       )
-      res.json({ nextWord })
+      const total = await LanguageService.getTotal(
+        req.app.get('db'),
+        req.language.id
+      )
+
+      const headObj = {
+        "nextWord": headWord[0].original,
+        "totalScore": total[0].total_score,
+        "wordCorrectCount": headWord[0].correct_count,
+        "wordIncorrectCount": headWord[0].incorrect_count,
+      }
+
+      res.send(headObj);
       next()
   
     }
