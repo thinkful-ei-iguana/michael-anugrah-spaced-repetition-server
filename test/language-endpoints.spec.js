@@ -130,7 +130,7 @@ describe.only('Language Endpoints', function () {
         .expect(200)
         .expect({
           nextWord: headWord.original,
-          totalScore: 0,
+          total_score: 0,
           wordCorrectCount: 0,
           wordIncorrectCount: 0,
         })
