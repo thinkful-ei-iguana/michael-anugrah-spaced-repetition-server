@@ -32,7 +32,11 @@ const LanguageService = {
   getNextWord(db, next) {
     return db
       .from('word')
-      .select('*')
+      .select(
+        'original',
+        'correct_count',
+        'incorrect_count',
+        'next')
       .where('id', next)
   }
 
