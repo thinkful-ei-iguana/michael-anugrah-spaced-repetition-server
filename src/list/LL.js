@@ -21,6 +21,16 @@ class LL {
     }
   }
 
+  insertAt(item, position) { //start at the head 
+    let tempNode = this.head; 
+    let after; 
+    for (let i = 1; i < position - 1; i++) { 
+      tempNode = tempNode.next; 
+    } 
+    after = tempNode.next;  
+    tempNode.next = new _Node(item, after); 
+    return;
+  }
 
 }
 
