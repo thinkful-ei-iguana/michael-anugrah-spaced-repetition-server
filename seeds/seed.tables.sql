@@ -21,8 +21,8 @@ VALUES
 
 INSERT INTO "word" ("id", "language_id", "original", "translation", "next")
 VALUES
-  (1, 1, 'Practicar', 'practice', 2),
-  (2, 1, 'Hola', 'hello', 3),
+  (1, 1, 'practicar', 'practice', 2),
+  (2, 1, 'hola', 'hello', 3),
   (3, 1, 'casa', 'house', 4),
   (4, 1, 'desarrollador', 'developer', 5),
   (5, 1, 'traducir', 'translate', 6),
