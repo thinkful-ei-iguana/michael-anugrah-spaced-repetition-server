@@ -4,11 +4,13 @@ const { requireAuth } = require('../middleware/jwt-auth')
 const LL = require('../list/LL');
 
 const languageRouter = express.Router()
+const BodyParser = express.json();
 
 let wordList = new LL();
 
 languageRouter
   .use(requireAuth)
+  .use(BodyParser)
   .use(async (req, res, next) => {
     try {
       const language = await LanguageService.getUsersLanguage(
@@ -48,7 +50,6 @@ languageRouter
 
 languageRouter
   .get('/head', async (req, res, next) => {
-    console.log(req.query)
     try {
       const headWord = await LanguageService.startPractice(
         req.app.get('db'),
@@ -79,15 +80,19 @@ languageRouter
 
 languageRouter
   .post('/guess', async (req, res, next) => {
-    try{
-    const guess = req.query.guess 
-    const wordId = req.query.id 
-    let answer = wordList.head.translation
+    console.log(req.body);
+    const guess = req.body.guess 
+    const wordId = req.body.id 
+    let answer = wordList.translation
+    console.log(guess);
+    console.log(wordId);
+    console.log(answer);
 
     if (guess === answer) {
       //post to the DB and add to correct amount
       //post to the DB and update memory value
-      const correctData = await LanguageService.correctAnswer(
+      try{ 
+        const correctData = await LanguageService.correctAnswer(
         req.app.get('db'),
         wordId
       )
@@ -109,19 +114,19 @@ languageRouter
           "isCorrect": true
         }
         res.send(correctObj);
+      } catch (error) {
+        next(error)
       }
 
-      else {
-        res.send('implement me!')
-        //post to the DB and add to incorrect amount
-        //post to the DB and update memory value
-        //shift the word within the linkedlist
-        //return incorrect message
-      }
+      
+    } else {
+      res.send('implement me!')
+      //post to the DB and add to incorrect amount
+      //post to the DB and update memory value
+      //shift the word within the linkedlist
+      //return incorrect message
     }
-    catch (error) {
-      next(error)
-    }
+    
   })
 
 
