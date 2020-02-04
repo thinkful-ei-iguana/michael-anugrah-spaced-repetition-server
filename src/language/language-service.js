@@ -29,16 +29,11 @@ const LanguageService = {
       .where({ language_id })
   },
 
-  getNextWord(db, nextWordId) {
+  getNextWord(db, next) {
     return db
       .from('word')
-      .select(
-        'original',
-        'correct_count',
-        'incorect_count',
-        'next'
-      )
-      .where('id', nextWordId)
+      .select('*')
+      .where('id', next)
   }
 
 

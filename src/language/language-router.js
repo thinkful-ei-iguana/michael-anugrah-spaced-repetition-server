@@ -45,15 +45,15 @@ languageRouter
 
 languageRouter
   .get('/head', async (req, res, next) => {
+    console.log(req.query)
     try {
       const nextWord = await LanguageService.getNextWord(
         req.app.get('db'),
-        req.next,
+        req.query.next
       )
-      res.json({words})
+      res.json({ nextWord })
       next()
   
-    res.send('implement me!')
     }
     catch (error) {
       next(error)
