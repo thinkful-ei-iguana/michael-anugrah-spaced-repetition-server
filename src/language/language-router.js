@@ -55,17 +55,14 @@ languageRouter
         req.app.get('db'),
         req.language.id
       )
-
       const headObj = {
         "nextWord": headWord[0].original,
-        "totalScore": total[0].total_score,
+        "total_score": total[0].total_score,
         "wordCorrectCount": headWord[0].correct_count,
         "wordIncorrectCount": headWord[0].incorrect_count,
       }
-
       res.send(headObj);
-      next()
-  
+      next()  
     }
     catch (error) {
       next(error)
