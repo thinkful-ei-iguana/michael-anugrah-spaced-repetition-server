@@ -59,7 +59,6 @@ languageRouter
         req.app.get('db'),
         req.language.id
       )
-        console.log(headWord);
 
       const headObj = {
         "nextWord": headWord.original,
@@ -82,14 +81,13 @@ languageRouter
 
 languageRouter
   .post('/guess', async (req, res, next) => {
-    console.log('List head val: ', wordList.head.value);
     const guess = req.body.guess 
     const wordId = req.body.id 
     let { translation, memory_value } = wordList.head.value
     
-    console.log('user guess: ', guess);
-    console.log('id from req.body: ', wordId);
-    console.log('from wordList.head: ', translation);
+    //console.log('user guess: ', guess);
+    //console.log('id from req.body: ', wordId);
+   // console.log('from wordList.head: ', translation);
 
     if (guess === translation) {
       //post to the DB and add to correct amount
@@ -100,14 +98,13 @@ languageRouter
         req.app.get('db'),
         wordId, memory_value
         );
+                //post to the DB and add to total
         const total = await LanguageService.addToTotal(
           req.app.get('db'),
           req.language.id
         );
 
-        console.log('correctData:', correctData);
-        console.log('Total:', total);
-
+        //return correct message
         let correctObj = 
         {
           "nextWord": wordList.head.next.value.original,
@@ -117,22 +114,52 @@ languageRouter
           "answer": correctData[0].translation,
           "isCorrect": true
         }
-        res.send(correctObj);
-
-      } catch (error) {
-          next(error)
-        }
-        //post to the DB and add to total
         
         //Shift the word within the linkedlist
-        // wordList.insertAt(item, position)
-        //return correct message
-        } else {
-        res.send('end of the code block')
+        let position = correctData[0].memory_value;
+        let item = wordList.head.value;
+        wordList.remove(item);
+        wordList.insertAt(item, position);
+
+        res.send(correctObj);
+      } 
+      catch (error) {
+          next(error)
+        }
+    } 
+    else {
+      try {
         //post to the DB and add to incorrect amount
         //post to the DB and update memory value
+        const incorrectData = await LanguageService.incorrectAnswer(
+          req.app.get('db'),
+          wordId
+          );
+
+        let total = LanguageService.getTotal(
+          req.app.get('db'),
+          req.language.id
+        )
+          console.log(total);
+          //return incorrect message
+          let incorrectObj = 
+          {
+            "nextWord": wordList.head.next.value.original,
+            "wordCorrectCount": incorrectData[0].correct_count,
+            "wordIncorrectCount": incorrectData[0].incorrect_count,
+            "totalScore": total[0].total_score,
+            "answer": incorrectData[0].translation,
+            "isCorrect": true
+          }
+          res.send(incorrectObj)
+      }
+      catch (error) {
+        next(error)
+      }
+        
+
         //shift the word within the linkedlist
-        //return incorrect message
+       
       }
     
   })

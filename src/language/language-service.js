@@ -42,7 +42,6 @@ const LanguageService = {
     return db
       .from('word')
       .where({ language_id })
-      //.where('id', 1)
       .first(
         'original',
         'correct_count',
@@ -59,13 +58,26 @@ const LanguageService = {
         ['next',
           'correct_count',
           'incorrect_count',
-          'translation']
+          'translation',
+          'memory_value']
       );
   },
 
   
 
-  incorrectAnswer() {
+  incorrectAnswer(db, word_id) {
+    return db
+      .from('word')
+      .where('id', word_id)
+      .update('memory_value', 1)
+      .increment('incorrect_count', 1)
+      .returning(
+        ['next',
+          'correct_count',
+          'incorrect_count',
+          'translation',
+          'memory_value']
+      );
 
   },
 

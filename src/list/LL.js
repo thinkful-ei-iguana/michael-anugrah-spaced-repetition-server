@@ -32,6 +32,31 @@ class LL {
     return;
   }
 
+  remove(item) {
+    if (!this.head) {
+      return null;
+    }
+    if (this.head.value === item) {
+      return this.head;
+    }
+    let currNode = this.head.next;
+    let previousNode = this.head;
+
+    while (
+      currNode !== null &&
+      currNode.value !== item
+    ) {
+      previousNode = currNode;
+      currNode = currNode.next;
+    }
+    if (currNode === null) {
+      console.log('Item not found');
+      return;
+    } else {
+      previousNode.next = currNode.next;
+    }
+  }
+
 }
 
 module.exports = LL;
