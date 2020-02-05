@@ -88,7 +88,11 @@ languageRouter
     //console.log('user guess: ', guess);
     //console.log('id from req.body: ', wordId);
    // console.log('from wordList.head: ', translation);
-
+    if (!req.body.guess) {
+      return res.status(400).json({
+        error: "Missing 'guess' in request body",
+      })
+    }
     if (guess === translation) {
       //post to the DB and add to correct amount
       //post to the DB and update memory value
@@ -150,7 +154,7 @@ languageRouter
             "wordIncorrectCount": incorrectData[0].incorrect_count,
             "totalScore": total[0].total_score,
             "answer": incorrectData[0].translation,
-            "isCorrect": true
+            "isCorrect": false
           }
           
           //shift the word within the linkedlist
