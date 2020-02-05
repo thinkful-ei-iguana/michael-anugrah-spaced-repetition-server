@@ -81,7 +81,7 @@ languageRouter
 languageRouter
   .post('/guess', async (req, res, next) => {
 
-    //Need to call on a method to create a new linkedlist
+    //Need to call on a method to create a new linkedlist 
     //this linkedlist will be based off of DB
     //order of linked list will be based off of next value -> id
     //after each guess, we need to update next value of that word
