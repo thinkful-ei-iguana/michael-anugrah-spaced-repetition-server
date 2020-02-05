@@ -32,9 +32,7 @@ const LanguageService = {
   getTotal(db, language_id) {
     return db 
       .from('language')
-      .select(
-        'total_score'
-      )
+      .select('total_score')
       .where( 'id', language_id);
   },
 

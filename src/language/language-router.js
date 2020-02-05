@@ -136,11 +136,12 @@ languageRouter
           wordId
           );
 
-        let total = LanguageService.getTotal(
+        let total = await LanguageService.getTotal(
           req.app.get('db'),
           req.language.id
         )
-          console.log(total);
+          console.log('this is total:', total);
+          
           //return incorrect message
           let incorrectObj = 
           {
@@ -151,15 +152,18 @@ languageRouter
             "answer": incorrectData[0].translation,
             "isCorrect": true
           }
+          
+          //shift the word within the linkedlist
+          let position = incorrectData[0].memory_value;
+          let item = wordList.head.value;
+          wordList.remove(item);
+          wordList.insertAt(item, position);
+
           res.send(incorrectObj)
       }
       catch (error) {
         next(error)
       }
-        
-
-        //shift the word within the linkedlist
-       
       }
     
   })
