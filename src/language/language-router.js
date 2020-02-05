@@ -69,7 +69,7 @@ languageRouter
         req.app.get('db'),
         req.language.id
       )
-      wordsArr.map(w => wordList.insertLast(w));
+      await wordsArr.map(w => wordList.insertLast(w));
       res.send(headObj);
       next()  
     }
@@ -80,29 +80,31 @@ languageRouter
 
 languageRouter
   .post('/guess', async (req, res, next) => {
-    console.log(req.body);
+    console.log(wordList.head.value);
     const guess = req.body.guess 
     const wordId = req.body.id 
-    let answer = wordList.translation
+    let { translation, memory_value } = wordList.head.value
+    
     console.log(guess);
     console.log(wordId);
     console.log(answer);
 
-    if (guess === answer) {
+    if (guess === translation) {
       //post to the DB and add to correct amount
       //post to the DB and update memory value
-      try{ 
-        const correctData = await LanguageService.correctAnswer(
+       
+      const correctData = await LanguageService.correctAnswer(
         req.app.get('db'),
-        wordId
+        wordId, memory_value
       )
+      console.log(correctData);
       //post to the DB and add to total
       const total = await LanguageService.addToTotal(
         req.app.get('db'),
         req.language.id
       )
       //Shift the word within the linkedlist
-      wordList.insertAt()
+      // wordList.insertAt(item, position)
       //return correct message
       let correctObj = 
         {
@@ -114,13 +116,8 @@ languageRouter
           "isCorrect": true
         }
         res.send(correctObj);
-      } catch (error) {
-        next(error)
-      }
-
-      
-    } else {
-      res.send('implement me!')
+      } else {
+      res.send('end of the code block')
       //post to the DB and add to incorrect amount
       //post to the DB and update memory value
       //shift the word within the linkedlist

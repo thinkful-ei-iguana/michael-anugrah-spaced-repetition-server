@@ -14,10 +14,10 @@ class LL {
       this.insertFirst(item);
     } else {
       let tempNode = this.head;
-      while (tempNode.next !== this.head) {
+      while (tempNode.next !== null) {
         tempNode = tempNode.next;
       }
-      tempNode.next = new _Node(item, this.head);
+      tempNode.next = new _Node(item, null);
     }
   }
 

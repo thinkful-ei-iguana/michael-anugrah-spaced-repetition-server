@@ -50,20 +50,16 @@ const LanguageService = {
       .where('id', 1);
   },
 
-  correctAnswer(db, word_id) {
+  correctAnswer(db, word_id, memory_value) {
     return db
-      .update('word')
+      .from('word')
       .where('id', word_id)
-      .increment('memory_value', 'memory_value')
+      .increment('memory_value', memory_value)
       .increment('correct_count', 1)
-      .select(
-        'next',
-        'correct_count',
-        'incorrect-count',
-        'translation'
-      )
-      .where('id', word_id);
+      .select('*');
   },
+
+  
 
   incorrectAnswer() {
 
@@ -71,16 +67,16 @@ const LanguageService = {
 
   addToTotal(db, language_id) {
     return db 
+      .returning(
+        'total_score'
+      )
       .update('language')
       .where({ language_id })
-      .increment('total_score', 1)
-      .select(
-        'total_score'
-      );
+      .increment('total_score', 1);
   } 
 
 
 
-}
+};
 
-module.exports = LanguageService
+module.exports = LanguageService;
