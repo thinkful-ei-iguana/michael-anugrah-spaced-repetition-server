@@ -41,22 +41,19 @@ const LanguageService = {
   startPractice(db, language_id) {
     return db
       .from('word')
-      .select(
-        'original',
+      .first('original',
         'correct_count',
-        'incorrect_count'
-      )
-      .where({ language_id })
-      .where('id', 1);
+        'incorrect_count')
+      .where({ language_id });
   },
 
   correctAnswer(db, word_id, memory_value) {
     return db
       .from('word')
-      .where('id', word_id)
       .increment('memory_value', memory_value)
       .increment('correct_count', 1)
-      .select('*');
+      .select('*')
+      .where('id', word_id);
   },
 
   
