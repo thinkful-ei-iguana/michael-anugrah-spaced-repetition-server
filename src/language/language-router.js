@@ -59,6 +59,8 @@ languageRouter
         req.app.get('db'),
         req.language.id
       )
+        console.log(headWord);
+
       const headObj = {
         "nextWord": headWord.original,
         "total_score": total[0].total_score,
@@ -103,15 +105,15 @@ languageRouter
           req.language.id
         );
 
-        console.log(correctData);
-        console.log(total);
+        console.log('correctData:', correctData);
+        console.log('Total:', total);
 
         let correctObj = 
         {
-          "nextWord": correctData[0].next,
+          "nextWord": wordList.head.next.value.original,
           "wordCorrectCount": correctData[0].correct_count,
           "wordIncorrectCount": correctData[0].incorrect_count,
-          "totalScore": total[0].total_score,
+          "totalScore": total[0],
           "answer": correctData[0].translation,
           "isCorrect": true
         }
