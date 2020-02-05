@@ -89,35 +89,43 @@ const LanguageService = {
       .returning(
         'total_score'
       );
-  } 
+  }, 
 
   getSpecificWord(db, id) {
     return db
-    .from('word')
-    .select(
-      'id',
-      'language_id',
-      'original',
-      'translation',
-      'next',
-      'memory_value',
-      'correct_count',
-      'incorrect_count'
-    )
-    .where('id', id);
-  }
+      .from('word')
+      .select(
+        'id',
+        'language_id',
+        'original',
+        'translation',
+        'next',
+        'memory_value',
+        'correct_count',
+        'incorrect_count'
+      )
+      .where('id', id);
+  },
 
-  createWordList(db, language_id, head) {
-    
+  createWordList: async (db, head) => {
     let wordList = new LL();
-  
+    let firstWord = await LanguageService.getSpecificWord(db, head);
+    firstWord = firstWord[0];
+    wordList.insertFirst(firstWord);
+    let stopCondition = firstWord.id;
 
+    while (firstWord.next !== stopCondition) {
+      let currentWord = await LanguageService.getSpecificWord(db, firstWord.next);
+      currentWord = currentWord[0];
+      wordList.insertLast(currentWord);
+      firstWord = currentWord;
+    }
 
-    
+    return wordList; 
   }
-
-
 
 };
+
+
 
 module.exports = LanguageService;

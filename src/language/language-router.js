@@ -51,14 +51,17 @@ languageRouter
 languageRouter
   .get('/head', async (req, res, next) => {
     try {
-      const headWord = await LanguageService.startPractice(
+      const headWord = await LanguageService.getSpecificWord(
         req.app.get('db'),
-        req.language.id
+        req.language.head
       )
       const total = await LanguageService.getTotal(
         req.app.get('db'),
         req.language.id
       )
+      console.log('head: ', req.language.head);
+      const list = await LanguageService.createWordList(req.app.get('db'), req.language.head)
+      console.log('list: ', list);
 
       const headObj = {
         "nextWord": headWord.original,
