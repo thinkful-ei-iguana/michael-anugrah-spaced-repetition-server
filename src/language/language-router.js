@@ -107,7 +107,7 @@ languageRouter
           req.app.get('db'),
           req.language.id
         );
-        
+
         //return correct message
         let correctObj = 
         {
@@ -117,9 +117,8 @@ languageRouter
           "totalScore": total[0],
           "answer": correctData[0].translation,
           "isCorrect": true,
-  
-        }
-        
+        } 
+
         //Shift the word within the linkedlist
         let position = correctData[0].memory_value;
         let item = wordList.head.value;
