@@ -82,8 +82,8 @@ languageRouter
 languageRouter
   .post('/guess', async (req, res, next) => {
     const guess = req.body.guess 
-    const wordId = req.body.id 
-    let { translation, memory_value } = wordList.head.value
+    //const wordId = req.body.id 
+    let { translation, memory_value, id } = wordList.head.value
     
     //console.log('user guess: ', guess);
     //console.log('id from req.body: ', wordId);
@@ -100,14 +100,14 @@ languageRouter
       try {
         const correctData = await LanguageService.correctAnswer(
         req.app.get('db'),
-        wordId, memory_value
+        id, memory_value
         );
                 //post to the DB and add to total
         const total = await LanguageService.addToTotal(
           req.app.get('db'),
           req.language.id
         );
-
+        
         //return correct message
         let correctObj = 
         {
@@ -116,7 +116,8 @@ languageRouter
           "wordIncorrectCount": correctData[0].incorrect_count,
           "totalScore": total[0],
           "answer": correctData[0].translation,
-          "isCorrect": true
+          "isCorrect": true,
+  
         }
         
         //Shift the word within the linkedlist
@@ -137,7 +138,7 @@ languageRouter
         //post to the DB and update memory value
         const incorrectData = await LanguageService.incorrectAnswer(
           req.app.get('db'),
-          wordId
+          id
           );
 
         let total = await LanguageService.getTotal(
@@ -154,7 +155,7 @@ languageRouter
             "wordIncorrectCount": incorrectData[0].incorrect_count,
             "totalScore": total[0].total_score,
             "answer": incorrectData[0].translation,
-            "isCorrect": false
+            "isCorrect": false,
           }
           
           //shift the word within the linkedlist
