@@ -123,7 +123,7 @@ describe.only('Language Endpoints', function () {
       )
     })
 
-    it(`responds with 200 and user's languages`, () => {
+    it.only(`responds with 200 and user's languages`, () => {
       return supertest(app)
         .get(`/api/language/head`)
         .set('Authorization', helpers.makeAuthHeader(testUser))
@@ -145,7 +145,7 @@ describe.only('Language Endpoints', function () {
     const testLanguagesWords = testWords.filter(
       w => w.language_id === testLanguage.id
     )
-
+      console.log(testLanguagesWords);
     beforeEach('insert users, languages and words', () => {
       return helpers.seedUsersLanguagesWords(
         db,
@@ -216,7 +216,7 @@ describe.only('Language Endpoints', function () {
         word => word.language_id === testLanguage.id
       )
 
-      it(`responds with correct and moves head`, () => {
+      it.only(`responds with correct and moves head`, () => {
         const correctPostBody = {
           guess: testLanguagesWords[0].translation,
         }

@@ -1,3 +1,5 @@
+const LL = require('../list/LL');
+
 const LanguageService = {
   getUsersLanguage(db, user_id) {
     return db
@@ -88,6 +90,31 @@ const LanguageService = {
         'total_score'
       );
   } 
+
+  getSpecificWord(db, id) {
+    return db
+    .from('word')
+    .select(
+      'id',
+      'language_id',
+      'original',
+      'translation',
+      'next',
+      'memory_value',
+      'correct_count',
+      'incorrect_count'
+    )
+    .where('id', id);
+  }
+
+  createWordList(db, language_id, head) {
+    
+    let wordList = new LL();
+  
+
+
+    
+  }
 
 
 

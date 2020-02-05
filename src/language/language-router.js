@@ -66,11 +66,7 @@ languageRouter
         "wordCorrectCount": headWord.correct_count,
         "wordIncorrectCount": headWord.incorrect_count,
       }
-      let wordsArr = LanguageService.getLanguageWords(
-        req.app.get('db'),
-        req.language.id
-      )
-      await wordsArr.map(w => wordList.insertLast(w));
+
       res.send(headObj);
       next()  
     }
@@ -81,6 +77,17 @@ languageRouter
 
 languageRouter
   .post('/guess', async (req, res, next) => {
+
+    //Need to call on a method to create a new linkedlist
+    //this linkedlist will be based off of DB
+    //order of linked list will be based off of next value -> id
+    //after each guess, we need to update next value of that word
+    //iterate through linked list M amount times (m = memory_value)
+    // find the id of the word at M position,
+    // set the current word's next value as that id in the DB
+    // set the head value in language table as the current next value
+
+
     const guess = req.body.guess 
     //const wordId = req.body.id 
     let { translation, memory_value, id } = wordList.head.value
@@ -109,6 +116,7 @@ languageRouter
         );
 
         //return correct message
+
         let correctObj = 
         {
           "nextWord": wordList.head.next.value.original,
