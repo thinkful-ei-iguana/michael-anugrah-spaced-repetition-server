@@ -51,14 +51,15 @@ languageRouter
 languageRouter
   .get('/head', async (req, res, next) => {
     try {
-      const headWord = await LanguageService.startPractice(
+      const headWord = await LanguageService.getSpecificWord(
         req.app.get('db'),
-        req.language.id
+        req.language.head
       )
       const total = await LanguageService.getTotal(
         req.app.get('db'),
         req.language.id
       )
+      console.log(headWord);
 
       const headObj = {
         "nextWord": headWord.original,
@@ -78,7 +79,7 @@ languageRouter
 languageRouter
   .post('/guess', async (req, res, next) => {
 
-    //Need to call on a method to create a new linkedlist
+    //Need to call on a method to create a new linkedlist 
     //this linkedlist will be based off of DB
     //order of linked list will be based off of next value -> id
     //after each guess, we need to update next value of that word

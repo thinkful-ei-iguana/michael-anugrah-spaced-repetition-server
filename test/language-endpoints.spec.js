@@ -145,7 +145,6 @@ describe.only('Language Endpoints', function () {
     const testLanguagesWords = testWords.filter(
       w => w.language_id === testLanguage.id
     )
-      console.log(testLanguagesWords);
     beforeEach('insert users, languages and words', () => {
       return helpers.seedUsersLanguagesWords(
         db,

@@ -89,7 +89,7 @@ const LanguageService = {
       .returning(
         'total_score'
       );
-  } 
+  }, 
 
   getSpecificWord(db, id) {
     return db
@@ -105,15 +105,18 @@ const LanguageService = {
       'incorrect_count'
     )
     .where('id', id);
-  }
+  },
 
-  createWordList(db, language_id, head) {
-    
+  createWordList(db, head) {
     let wordList = new LL();
-  
-
-
+    let firstWord = this.getSpecificWord(db, head);
     
+    while (firstWord.next) {
+      let currentWord = this.getSpecificWord(db, firstWord.next);
+      wordList.insertLast(currentWord);
+      firstWord = currentWord;
+    }
+    return wordList;
   }
 
 
