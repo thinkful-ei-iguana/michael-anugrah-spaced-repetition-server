@@ -28,17 +28,6 @@ languageRouter
       next(error)
     }
   })
-  // .use(async (req, res, next) => {
-  //   try {
-  //     let wordList = await LanguageService.createWordList(req.app.get('db'), req.language.head)
-  //     // console.log('wordList ln35: ', wordList);
-  //     req.list = wordList
-  //     // console.log('req.list ln37', req.list);
-  //     next()
-  //   } catch(error) {
-  //     next(error)
-  //   }
-  // })
 
 languageRouter
   .get('/', async (req, res, next) => {
@@ -110,7 +99,6 @@ languageRouter
         try {
         //post to the DB and add to correct amount
         //post to the DB and update memory value
-        console.log(memory_value);
           let correctData = await LanguageService.correctAnswer(
             req.app.get('db'),
             id, memory_value
@@ -155,7 +143,6 @@ languageRouter
         console.log('we made it!');
         //post to the DB and add to incorrect amount
         //post to the DB and update memory value
-        console.log(memory_value);
           let incorrectData = await LanguageService.incorrectAnswer(
             req.app.get('db'),
             id
@@ -191,6 +178,5 @@ languageRouter
     }
     
   })
-
 
 module.exports = languageRouter
