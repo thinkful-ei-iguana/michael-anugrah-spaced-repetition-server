@@ -132,16 +132,47 @@ const LanguageService = {
     let firstWord = await LanguageService.getSpecificWord(db, head);
     firstWord = firstWord[0];
     wordList.insertFirst(firstWord);
-    let stopCondition = firstWord.id;
+    let currentWord = await LanguageService.getSpecificWord(db, firstWord.next);
+    currentWord = currentWord[0];
 
-    while (firstWord.next !== stopCondition) {
-      let currentWord = await LanguageService.getSpecificWord(db, firstWord.next);
-      currentWord = currentWord[0];
+    while (currentWord) {
       wordList.insertLast(currentWord);
-      firstWord = currentWord;
+      currentWord = await LanguageService.getSpecificWord(db, currentWord.next);
+      currentWord = currentWord[0];
+    }
+    return wordList; 
+  },
+
+  changeNext(db, beforeId, nextId) {
+    return db
+    .from('word')
+    .where('id', beforeId)
+    .update('next', nextId);
+  },
+
+  moveBack: async (db, word_id, memory, wordList, language_id) => {
+    let nodeBefore = wordList.head;
+    let wordsArr = await LanguageService.getLanguageWords(db, language_id);
+    let length = wordsArr.length;
+    
+    if (memory >= length) {
+      console.log('memory too much')
+      while (nodeBefore.next) {
+        nodeBefore = nodeBefore.next;
+      }
+      console.log(nodeBefore);
+      await LanguageService.changeNext(db, nodeBefore.value.id, word_id);
+      await LanguageService.changeNext(db, word_id, null);
+      return;
     }
 
-    return wordList; 
+    for(let i=0; i < memory; i++) {
+      nodeBefore = nodeBefore.next;
+    }
+    let nextId = nodeBefore.next.value.id;
+    await LanguageService.changeNext(db, nodeBefore.value.id, word_id);
+    await LanguageService.changeNext(db, word_id, nextId);
+    return;
   }
 
 };
