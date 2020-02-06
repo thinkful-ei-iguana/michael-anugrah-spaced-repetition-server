@@ -183,7 +183,7 @@ describe('Language Endpoints', function () {
             nextWord: testLanguagesWords[1].original,
             totalScore: 0,
             wordCorrectCount: 0,
-            wordIncorrectCount: 1,
+            wordIncorrectCount: 0,
             answer: testLanguagesWords[0].translation,
             isCorrect: false
           })
@@ -203,8 +203,8 @@ describe('Language Endpoints', function () {
             nextWord: testLanguagesWords[0].original,
             totalScore: 0,
             wordCorrectCount: 0,
-            wordIncorrectCount: 2,
-            answer: testLanguagesWords[0].translation,
+            wordIncorrectCount: 1,
+            answer: testLanguagesWords[1].translation,
             isCorrect: false
           })
       })
@@ -227,7 +227,7 @@ describe('Language Endpoints', function () {
           .expect({
             nextWord: testLanguagesWords[1].original,
             totalScore: 1,
-            wordCorrectCount: 1,
+            wordCorrectCount: 0,
             wordIncorrectCount: 0,
             answer: testLanguagesWords[0].translation,
             isCorrect: true

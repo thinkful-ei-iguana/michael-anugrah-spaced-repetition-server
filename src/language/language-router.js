@@ -6,7 +6,6 @@ const LL = require('../list/LL');
 const languageRouter = express.Router()
 const BodyParser = express.json();
 
-
 languageRouter
   .use(requireAuth)
   .use(BodyParser)
@@ -91,11 +90,9 @@ languageRouter
         req.language.head);
 
     const guess = req.body.guess
-    let { translation, memory_value, id } = wordList.head.value
+    let { translation, memory_value, id} = wordList.head.value
           //////  CORRECT //////////
     if(req.body.guess === translation) {
-
-
         try {
         //post to the DB and add to correct amount
         //post to the DB and update memory value
@@ -104,6 +101,11 @@ languageRouter
             id, memory_value
             );
           correctData = correctData[0];
+          let nextData = await LanguageService.getSpecificWord(
+            req.app.get('db'),
+            wordList.head.value.next
+          )
+          nextData = nextData[0];
 
         //post to the DB and add to total
           let total = await LanguageService.addToTotal(
@@ -123,8 +125,8 @@ languageRouter
           let correctObj = 
             {
               "nextWord": wordList.head.next.value.original,
-              "wordCorrectCount": correctData.correct_count,
-              "wordIncorrectCount": correctData.incorrect_count,
+              "wordCorrectCount": nextData.correct_count,
+              "wordIncorrectCount": nextData.incorrect_count,
               "totalScore": total,
               "answer": correctData.translation,
               "isCorrect": true,
@@ -134,8 +136,7 @@ languageRouter
         catch (error) {
           next(error)
         }
-    } 
-    
+    }  
       //   IF ANSWER INCORRECT
       else {
       try {
@@ -148,12 +149,18 @@ languageRouter
             id
             );
           incorrectData = incorrectData[0];
-          memory_value = 1;
+
+          let nextData = await LanguageService.getSpecificWord(
+            req.app.get('db'),
+            wordList.head.value.next
+          )
+          nextData = nextData[0];
+
         //post to the DB and adjust the next value based off of memory value
           await LanguageService.moveBack(
             req.app.get('db'),
             id,
-            memory_value,
+            0,
             wordList,
             req.language.id
           );
@@ -166,8 +173,8 @@ languageRouter
           let incorrectObj = 
             {
               "nextWord": wordList.head.next.value.original,
-              "wordCorrectCount": incorrectData.correct_count,
-              "wordIncorrectCount": incorrectData.incorrect_count,
+              "wordCorrectCount": nextData.correct_count,
+              "wordIncorrectCount": nextData.incorrect_count,
               "totalScore": total[0].total_score,
               "answer": incorrectData.translation,
               "isCorrect": false,

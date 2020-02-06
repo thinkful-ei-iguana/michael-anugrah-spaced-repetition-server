@@ -95,8 +95,6 @@ const LanguageService = {
       .increment('incorrect_count', 1)
       .returning(
         ['next',
-          'correct_count',
-          'incorrect_count',
           'translation',
           'memory_value']
       );
@@ -170,7 +168,7 @@ const LanguageService = {
       return;
     }
 
-    for(let i=0; i < memory; i++) {
+    for(let i=0; i <= memory; i++) {
       nodeBefore = nodeBefore.next;
     }
     let nextId = nodeBefore.next.value.id;
