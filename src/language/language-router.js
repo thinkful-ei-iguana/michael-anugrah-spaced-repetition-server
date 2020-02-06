@@ -61,11 +61,16 @@ languageRouter
 languageRouter
   .get('/head', async (req, res, next) => {
     try {
-      let head = await LanguageService.getHead(req.app.get('db'), req.language.id);
+      let head = await LanguageService.getHead(
+        req.app.get('db'), 
+        req.language.id,
+        req.language.head
+        );
+      
       let total = await LanguageService.getTotal(
         req.app.get('db'),
         req.language.id
-      )
+        );
       total = total[0];
 
       const headObj = {
@@ -184,68 +189,6 @@ languageRouter
       }
       catch (error) {}
     }
-
-          ////// INCORRECT /////////
-      //Need to call on a method to create a new linkedlist 
-      //this linkedlist will be based off of DB
-      //order of linked list will be based off of next value -> id
-      //after each guess, we need to update next value of that word
-      //iterate through linked list M amount times (m = memory_value)
-      // find the id of the word at M position,
-      // set the current word's next value as that id in the DB
-      // set the head value in language table as the current next value
-
-  //   if (guess === translation) {
-
-       
-  //     try {
-  //       let wordsArr = await LanguageService.getLanguageWords(req.app.get('db'), req.language.id);
-  //       let length = wordsArr.length;
-
-
-
-
-
-
-  //   } 
-  //   else {
-  //     try {
-  //       //post to the DB and add to incorrect amount
-  //       //post to the DB and update memory value
-  //       const incorrectData = await LanguageService.incorrectAnswer(
-  //         req.app.get('db'),
-  //         id
-  //         );
-
-  //       let total = await LanguageService.getTotal(
-  //         req.app.get('db'),
-  //         req.language.id
-  //       )
-  //         console.log('this is total:', total);
-          
-  //         //return incorrect message
-  //         let incorrectObj = 
-  //         {
-  //           "nextWord": wordList.head.next.value.original,
-  //           "wordCorrectCount": incorrectData[0].correct_count,
-  //           "wordIncorrectCount": incorrectData[0].incorrect_count,
-  //           "totalScore": total[0].total_score,
-  //           "answer": incorrectData[0].translation,
-  //           "isCorrect": false,
-  //         }
-          
-  //         //shift the word within the linkedlist
-  //         let position = incorrectData[0].memory_value;
-  //         let item = wordList.head.value;
-  //         wordList.remove(item);
-  //         wordList.insertAt(item, position);
-
-  //         res.send(incorrectObj)
-  //     }
-  //     catch (error) {
-  //       next(error)
-  //     }
-  //     }
     
   })
 

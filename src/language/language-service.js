@@ -30,10 +30,12 @@ const LanguageService = {
       )
       .where({ language_id });
   },
-  getHead(db, language_id){
+  
+  getHead(db, language_id, word_id){
     return db
       .from('word')
       .where('language_id', language_id)
+      .where('id', word_id)
       .first('id',
       'language_id',
       'original',
@@ -44,11 +46,11 @@ const LanguageService = {
       'incorrect_count');
   },
 
-  moveHead(db, head) {
+  moveHead(db, headId, language_id) {
     return db
       .from('language')
-      .where('head', head)
-      .increment('head', 1)
+      .where('id', language_id)
+      .update('head', headId);
   },
 
   getTotal(db, language_id) {
@@ -154,7 +156,9 @@ const LanguageService = {
     let nodeBefore = wordList.head;
     let wordsArr = await LanguageService.getLanguageWords(db, language_id);
     let length = wordsArr.length;
-    
+    console.log(nodeBefore.value.next)
+    await LanguageService.moveHead(db, nodeBefore.value.next, language_id);
+
     if (memory >= length) {
       console.log('memory too much')
       while (nodeBefore.next) {
