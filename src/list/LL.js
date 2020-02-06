@@ -37,15 +37,13 @@ class LL {
       return null;
     }
     if (this.head.value === item) {
-      return this.head;
+      this.head = this.head.next;
+      return;
     }
-    let currNode = this.head.next;
+    let currNode = this.head;
     let previousNode = this.head;
 
-    while (
-      currNode !== null &&
-      currNode.value !== item
-    ) {
+    while ( currNode !== null && currNode.value !== item ) {
       previousNode = currNode;
       currNode = currNode.next;
     }

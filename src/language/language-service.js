@@ -30,6 +30,26 @@ const LanguageService = {
       )
       .where({ language_id });
   },
+  getHead(db, language_id){
+    return db
+      .from('word')
+      .where('language_id', language_id)
+      .first('id',
+      'language_id',
+      'original',
+      'translation',
+      'next',
+      'memory_value',
+      'correct_count',
+      'incorrect_count');
+  },
+
+  moveHead(db, head) {
+    return db
+      .from('language')
+      .where('head', head)
+      .increment('head', 1)
+  },
 
   getTotal(db, language_id) {
     return db 
@@ -41,7 +61,7 @@ const LanguageService = {
   startPractice(db, language_id) {
     return db
       .from('word')
-      .where({ language_id })
+      .where('language_id', language_id)
       .first(
         'original',
         'correct_count',
