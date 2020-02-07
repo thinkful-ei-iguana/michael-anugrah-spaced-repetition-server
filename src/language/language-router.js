@@ -63,7 +63,7 @@ languageRouter
 
       const headObj = {
         "nextWord": head.original,
-        "total_score": total.total_score,
+        "totalScore": total.total_score,
         "wordCorrectCount": head.correct_count,
         "wordIncorrectCount": head.incorrect_count,
       }
