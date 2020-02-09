@@ -3,7 +3,14 @@ Built by Anugrah Lambogo and Michael Weedman
 
 ## Live Link
 
+[Live API](https://sleepy-temple-89186.herokuapp.com/api "api link - won't be able to complete any requests") The live API will not send any responses without authentication.
+
+[Live Client](https://spaced-rep-phi.now.sh/ "Spaced repetition")
+[Client repository](https://github.com/thinkful-ei-iguana/michael-anugrah-spaced-repetition-client "Spaced repetition server")
+
 ## About this API
+
+
 
 ## Routes
 
