@@ -1,4 +1,11 @@
 # Spaced repetition API!
+Built by Anugrah Lambogo and Michael Weedman
+
+## Live Link
+
+## About this API
+
+## Routes
 
 ## Local dev setup
 
