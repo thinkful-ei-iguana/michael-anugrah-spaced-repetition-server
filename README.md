@@ -10,9 +10,16 @@ Built by Anugrah Lambogo and Michael Weedman
 
 ## About this API
 
+This is the API that serves our Spaced Repetition learning application. The application is a simple spaced repetition learning application meant to help a user learn a new language.
+
+This API pulls from a SQL database of two tables: a table of languages, and a table of words. The api creates a singly linked linked-list from the word table to emulate spaced repetition learning. If a user answers a word incorrectly, the word is sent back in the linked-list by one space. If it is answered correctly, it is sent back more spaces depending on the amount of times the user has answered it correctly. The order of this linked-list is persisted within the database, as well as the amount of times the user has answered each word correctly and incorrectly. Therefore the user can come back later and continue their progress.
 
 
 ## Routes
+
+/api/
+/api/head
+/api/guess
 
 ## Local dev setup
 
